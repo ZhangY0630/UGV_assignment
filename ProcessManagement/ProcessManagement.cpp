@@ -15,7 +15,7 @@ using namespace System::Net::Sockets;
 using namespace System::Net;
 using namespace System::Text;
 
-#define NUM_UNITS 5
+#define NUM_UNITS 3
 
 bool IsProcessRunning(const char* processName);
 void StartProcesses();
@@ -24,10 +24,11 @@ void StartProcesses();
 TCHAR Units[10][20] = //
 {
 	TEXT("GPS.exe"),
+	TEXT("Display.exe"),
+	TEXT("Camera.exe"),
 	TEXT("LASER.exe"),
-	TEXT("VehicleControl.exe"),
-	TEXT("OpenGL.exe"),
-	TEXT("Camera.exe")
+	TEXT("VehicleControl.exe")
+	
 };
 
 int main()
@@ -49,7 +50,7 @@ bool IsProcessRunning(const char* processName)
 
 	if (Process32First(snapshot, &entry))
 		while (Process32Next(snapshot, &entry))
-			if (!_stricmp((const char *)entry.szExeFile, processName))
+			if (!_stricmp((const char*)entry.szExeFile, processName))
 				exists = true;
 
 	CloseHandle(snapshot);

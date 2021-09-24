@@ -38,10 +38,6 @@
 #include "Messages.hpp"
 #include "HUD.hpp"
 
-#include <smstructs.h>
-#include <SMObject.h>
-#include <SMFcn.h>
-
 void display();
 void reshape(int width, int height);
 void idle();
@@ -67,10 +63,6 @@ int prev_mouse_y = -1;
 Vehicle * vehicle = NULL;
 double speed = 0;
 double steering = 0;
-
-//Monitor life of PM
-long int MyLifeCounter = 0;
-int PMCounter = 0;
 
 //int _tmain(int argc, _TCHAR* argv[]) {
 int main(int argc, char ** argv) {
@@ -183,36 +175,6 @@ double getTime()
 
 void idle() {
 
-	//set up shared memory
-	SMObject PMObject(PMArray, sizeof(ProcessManagement));
-	PMObject.SMCreate();
-	PMObject.SMAccess();
-	ProcessManagement* PM = (ProcessManagement*)PMObject.pData;
-
-	//set up shared memory
-	SMObject VCObject(VehicleControlArray, sizeof(SM_VehicleControl));
-	VCObject.SMCreate();
-	VCObject.SMAccess();
-	SM_VehicleControl* VC = (SM_VehicleControl*)VCObject.pData;
-
-	PM->Heartbeat.Flags.OpenGL = 1;
-
-	if (PM->Shutdown.Flags.OpenGL)
-		exit(0);
-
-	if (MyLifeCounter == PM->LifeCounter)
-	{
-		PMCounter++;
-	}
-	else
-	{
-		MyLifeCounter = PM->LifeCounter;
-		PMCounter = 0;
-	}
-
-	if (PMCounter > 20)
-		exit(0);
-
 	if (KeyManager::get()->isAsciiKeyPressed('a')) {
 		Camera::get()->strafeLeft();
 	}
@@ -256,8 +218,8 @@ void idle() {
 		speed = Vehicle::MAX_BACKWARD_SPEED_MPS;
 	}
 
-	VC->Speed = speed;
-	VC->Steering = steering;
+
+
 
 	const float sleep_time_between_frames_in_seconds = 0.025;
 
