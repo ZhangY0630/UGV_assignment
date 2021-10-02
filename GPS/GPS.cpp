@@ -8,14 +8,14 @@ int GPS::connect(String^ hostName, int portNumber)
 	// YOUR CODE 
 	this->ipAdress = hostName;
 	this->port = portNumber;
-	this->client = gcnew TcpClient(hostName, portNumber);
-	client->NoDelay = TRUE;
-	client->ReceiveTimeout = 2000;
-	client->SendTimeout = 1000;
-	client->ReceiveBufferSize = 1024;
-	client->SendBufferSize = 1024;
+	this->Client = gcnew TcpClient(hostName, portNumber);
+	Client->NoDelay = TRUE;
+	Client->ReceiveTimeout = 2000;
+	Client->SendTimeout = 1000;
+	Client->ReceiveBufferSize = 1024;
+	Client->SendBufferSize = 1024;
 
-	stream = client->GetStream();
+	Stream = Client->GetStream();
 	
 	return 1;
 }
@@ -33,12 +33,12 @@ int GPS::setupSharedMemory()
 }
 int GPS::getData()
 {
-	stream->Read(receiveData,0, receiveData->Length);
+	Stream->Read(ReadData,0, ReadData->Length);
 	GPSData gpsdata;
 	
 	structPtr = (unsigned char*)&gpsdata;
 	for (int i = 0; i < sizeof(GPSData); i++) {
-		*(structPtr + i) = receiveData[i];
+		*(structPtr + i) = ReadData[i];
 	}
 	east = gpsdata.easting;
 	north = gpsdata.northing;
@@ -82,8 +82,8 @@ int GPS::setHeartbeat(bool heartbeat)
 GPS::~GPS()
 {
 	// YOUR CODE HERE
-	stream->Close();
-	client->Close();
+	Stream->Close();
+	Client->Close();
 }
 
 

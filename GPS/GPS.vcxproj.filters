@@ -15,17 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="GPS.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GPS.cpp">
-      <Filter>资源文件</Filter>
+    <ClCompile Include="GPSMain.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\SMObject.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GPSMain.cpp">
-      <Filter>资源文件</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
