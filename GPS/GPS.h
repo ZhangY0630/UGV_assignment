@@ -47,6 +47,7 @@ private:
 	unsigned int crc;
 	array<unsigned char>^ receiveData;
 	unsigned char* structPtr;
+
 //protected:
 	// YOUR CODE HERE (ADDITIONAL MEMBER VARIABLES THAT YOU MAY WANT TO ADD)
 
