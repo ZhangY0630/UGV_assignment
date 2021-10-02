@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="..\Common\SMObject.cpp" />
     <ClCompile Include="GPS.cpp" />
+    <ClCompile Include="GPSMain.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

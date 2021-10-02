@@ -24,6 +24,9 @@
     <ClCompile Include="..\Common\SMObject.cpp">
       <Filter>资源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GPSMain.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GPS.h">
