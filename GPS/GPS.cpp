@@ -1,43 +1,89 @@
 #include "GPS.h"
 //using namespace GPS;
+
+unsigned long CalculateBlockCRC32(unsigned long ulCount, unsigned char* ucBuffer);
+
 int GPS::connect(String^ hostName, int portNumber) 
 {
-	// YOUR CODE HERE
+	// YOUR CODE 
+	this->ipAdress = hostName;
+	this->port = portNumber;
+	this->client = gcnew TcpClient(hostName, portNumber);
+	client->NoDelay = TRUE;
+	client->ReceiveTimeout = 2000;
+	client->SendTimeout = 1000;
+	client->ReceiveBufferSize = 1024;
+	client->SendBufferSize = 1024;
+
+	stream = client->GetStream();
+	
 	return 1;
 }
 int GPS::setupSharedMemory()
 {
+	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
+	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
+	PMObj.SMAccess();
+	GPSObj.SMAccess();
+	PMdata = (ProcessManagement*)PMObj.pData;
+	GPSdata = (SM_GPS*)GPSObj.pData;
+
 	// YOUR CODE HERE
 	return 1;
 }
 int GPS::getData()
 {
+	stream->Read(receiveData,0, receiveData->Length);
+	GPSData gpsdata;
+	
+	structPtr = (unsigned char*)&gpsdata;
+	for (int i = 0; i < sizeof(GPSData); i++) {
+		*(structPtr + i) = receiveData[i];
+	}
+	east = gpsdata.easting;
+	north = gpsdata.northing;
+	height = gpsdata.height;
+	crc = gpsdata.checksum;
+
+
 	// YOUR CODE HERE
 	return 1;
 }
 int GPS::checkData()
 {
+	unsigned int checksum = CalculateBlockCRC32(sizeof(GPSData) - 4, structPtr);
 	// YOUR CODE HERE
-	return 1;
+	if (checksum == crc) {
+		return 1;
+	}
+	return 0;
 }
 int GPS::sendDataToSharedMemory()
 {
 	// YOUR CODE HERE
+	GPSdata->easting = east;
+	GPSdata->northing = north;
+	GPSdata->height = height;
 	return 1;
 }
 bool GPS::getShutdownFlag()
 {
+	bool shutdown = PMdata->Shutdown.Flags.GPS;
+	return shutdown;
 	// YOUR CODE HERE
-	return 1;
+	//return 1;
 }
 int GPS::setHeartbeat(bool heartbeat)
 {
+	PMdata->Heartbeat.Flags.GPS = heartbeat;
 	// YOUR CODE HERE
 	return 1;
 }
 GPS::~GPS()
 {
 	// YOUR CODE HERE
+	stream->Close();
+	client->Close();
 }
 
 

@@ -15,7 +15,7 @@ using namespace System::Net::Sockets;
 using namespace System::Net;
 using namespace System::Text;
 
-#define NUM_UNITS 3
+#define NUM_UNITS 1
 
 bool IsProcessRunning(const char* processName);
 void StartProcesses();
@@ -24,18 +24,41 @@ void StartProcesses();
 TCHAR Units[10][20] = //
 {
 	TEXT("GPS.exe"),
+	TEXT("LASER.exe"),
 	TEXT("Display.exe"),
 	TEXT("Camera.exe"),
-	TEXT("LASER.exe"),
 	TEXT("VehicleControl.exe")
 	
 };
 
 int main()
 {
-	//start all 5 modules
+	
+	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
+	PMObj.SMCreate();
+	PMObj.SMAccess();
+	SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
+	LaserObj.SMCreate();
+	LaserObj.SMAccess();
+	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
+	GPSObj.SMCreate();
+	GPSObj.SMAccess();
+
+	//building a pointer
+	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
+	SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
+	SM_GPS* GPSData = (SM_GPS*)GPSObj.pData;
+	//initialise status
+	PMData->Shutdown.Status = 0x00;
+	PMData->Heartbeat.Status = 0x00;
+
 	StartProcesses();
-	return 0;
+
+
+
+	//start all 5 modules
+	//StartProcesses();
+	//return 0;
 }
 
 
