@@ -29,17 +29,18 @@ int main()
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();
-	PMObj.SMAccess();
-	SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
-	LaserObj.SMCreate();
-	LaserObj.SMAccess();
+	// SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
+	// LaserObj.SMCreate();
+	// LaserObj.SMAccess();
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	GPSObj.SMCreate();
+	
+	PMObj.SMAccess();
 	GPSObj.SMAccess();
 
 	//building a pointer
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
-	SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
+	// SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
 	SM_GPS* GPSData = (SM_GPS*)GPSObj.pData;
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
