@@ -59,6 +59,7 @@ struct ProcessManagement
 {
 	ExecFlags Heartbeat;
 	ExecFlags Shutdown;
+	double Timestamp;
 	long int LifeCounter;
 };
 

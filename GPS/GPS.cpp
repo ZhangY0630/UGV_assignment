@@ -33,7 +33,7 @@ int GPS::setupSharedMemory()
 }
 int GPS::getData()
 {
-	//ReadData = gcnew array<unsigned char>(112);
+	ReadData = gcnew array<unsigned char>(112);
 	Stream->Read(ReadData,0, ReadData->Length);
 	Console::WriteLine(ReadData);
 	GPSData gpsdata;
