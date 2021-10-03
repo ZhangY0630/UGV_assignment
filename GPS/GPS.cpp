@@ -36,6 +36,11 @@ int GPS::setupSharedMemory()
 	PMdata = (ProcessManagement*)PMObj.pData;
 	GPSdata = (SM_GPS*)GPSObj.pData;
 
+	GPSdata->easting = 0;
+	GPSdata->northing = 0;
+	GPSdata->height = 0;
+	Console::WriteLine("GPS module shared memory done.");
+
 	// YOUR CODE HERE
 	return 1;
 }

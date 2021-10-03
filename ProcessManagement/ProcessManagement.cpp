@@ -25,6 +25,7 @@ void StartProcesses();
 
 int main()
 {
+	killProcessByName(Units[0]);
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();
@@ -43,7 +44,10 @@ int main()
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
 	PMData->Heartbeat.Status = 0x00;
-
+	GPSData->easting = 0;
+	GPSData->northing = 0;
+	GPSData->height = 0;
+	Console::WriteLine("Iniitialization finished");
 	StartProcesses();
 
 	while (!PMData->Shutdown.Flags.ProcessManagement) {
