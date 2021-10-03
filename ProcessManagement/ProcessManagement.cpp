@@ -54,7 +54,9 @@ int main()
 
 	StartProcesses();
 
-
+	while (1) {
+		if (_kbhit()) break;
+	}
 
 	//start all 5 modules
 	//StartProcesses();
