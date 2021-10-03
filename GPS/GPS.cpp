@@ -31,34 +31,58 @@ int GPS::setupSharedMemory()
 	// YOUR CODE HERE
 	return 1;
 }
+
+
+
 int GPS::getData()
 {
-	ReadData = gcnew array<unsigned char>(112);
-	Stream->Read(ReadData,0, ReadData->Length);
-	Console::WriteLine(ReadData);
+	ReadData = gcnew array<unsigned char>(256);
+	Stream->Read(ReadData, 0, ReadData->Length);
+	return 1;
+}
+
+int GPS::processData()
+{
+	//Console::WriteLine(ReadData);
 	GPSData gpsdata;
 	
 	structPtr = (unsigned char*)&gpsdata;
-	for (int i = 0; i < sizeof(GPSData); i++) {
-		*(structPtr + i) = ReadData[i];
+	unsigned int a= (sizeof(GPSData));
+	for (int i = 0; i < 112; i++) {
+		structPtr[i] = ReadData[i];
 	}
 	east = gpsdata.easting;
 	north = gpsdata.northing;
 	height = gpsdata.height;
 	crc = gpsdata.checksum;
-
+	unsigned int checksum = CalculateBlockCRC32(112 - 4, structPtr);
+	if (crc == checksum) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 
 	// YOUR CODE HERE
 	return 1;
 }
 int GPS::checkData()
 {
-	unsigned int checksum = CalculateBlockCRC32(sizeof(GPSData) - 4, structPtr);
-	// YOUR CODE HERE
-	if (checksum == crc) {
-		return 1;
-	}
-	return 0;
+	bool hasHeader = false;
+	unsigned int Header = 0;
+	int i = 0;
+	int Start; //Start of data
+	unsigned char Data;
+
+	do
+	{
+		Data = ReadData[i++];
+		Header = ((Header << 8) | Data);
+		if (Header == 0xaa44121c) {
+			hasHeader = true;
+		}
+	} while (Header != 0xaa44121c && i < ReadData->Length);
+	return hasHeader;
 }
 int GPS::sendDataToSharedMemory()
 {

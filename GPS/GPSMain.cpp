@@ -6,12 +6,11 @@ int main() {
 	gpsmodule->setupSharedMemory();
 	gpsmodule->connect("192.168.1.200", 24000);
 	gpsmodule->getData();
-	if (gpsmodule->checkData() == 1) {
-		gpsmodule->sendDataToSharedMemory();
-	}
-	else {
+	if (gpsmodule->checkData() == 0) {
 		Console::WriteLine("Error GPS read");
+		//gpsmodule->sendDataToSharedMemory();
 	}
+	gpsmodule->processData();
 	gpsmodule->~GPS();
 	Console::WriteLine("GPS module terminate successfully");
 	

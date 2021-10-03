@@ -11,15 +11,17 @@ unsigned long CalculateBlockCRC32(unsigned long ulCount, unsigned char* ucBuffer
 using namespace System;
 using namespace System::Net::Sockets;
 
+#pragma pack(push,4)
 struct GPSData {
-	unsigned char discard[44];
+	unsigned int Header;
+	unsigned char Discards[40];
 	double northing;
 	double easting;
 	double height;
-	unsigned char discard1[40];
+	unsigned char Discards1[40];
 	unsigned int checksum;
 };
-
+#pragma pack(pop)
 ref class GPS : public UGV_module
 {
 
@@ -34,18 +36,16 @@ public:
 	bool getShutdownFlag() override;
 	int setHeartbeat(bool heartbeat) override;
 	~GPS();
+	int processData() override;
 
 private:
 	//GSPData gpsdata
-	TcpClient^ client;
 	String^ ipAdress;
-	NetworkStream^ stream;
 	int port;
 	double north;
 	double east;
 	double height;
 	unsigned int crc;
-	array<unsigned char>^ receiveData;
 	unsigned char* structPtr;
 
 //protected:
