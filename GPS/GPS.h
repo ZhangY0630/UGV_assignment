@@ -37,6 +37,7 @@ public:
 	int setHeartbeat(bool heartbeat) override;
 	~GPS();
 	int processData() override;
+	void printData() override;
 
 private:
 	//GSPData gpsdata

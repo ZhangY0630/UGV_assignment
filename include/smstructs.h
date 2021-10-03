@@ -19,6 +19,9 @@ using namespace System::Text;
 
 #define STANDARD_LASER_LENGTH 361
 
+#define gps_count 3
+
+
 struct SM_Laser
 {
 	double x[STANDARD_LASER_LENGTH];
@@ -40,12 +43,12 @@ struct SM_GPS
 
 struct UnitFlags
 {
-	unsigned char	ProcessManagement : 1,	//NONCRITICAL
-					Laser : 1,				//NONCRITICAL
-					VehicleControl : 1,		//NONCRITICAL
+	unsigned char	ProcessManagement : 1,	//CRITICAL
+					Laser : 1,				//CRITICAL
+					VehicleControl : 1,		//CRITICAL
 					GPS : 1,				//NONCRITICAL
 					OpenGL : 1,				//NONCRITICAL
-					Camera : 1,				//NONCRITICAL
+					Camera : 1,				//CRITICAL
 					Garbage : 2;
 };
 
@@ -59,10 +62,10 @@ struct ProcessManagement
 {
 	ExecFlags Heartbeat;
 	ExecFlags Shutdown;
-	double Timestamp;
+	double waitCount[8];
 	long int LifeCounter;
 };
 
-#define NONCRITICALMASK 0xff	//0 011 0000
-#define CRITICALMASK 0x0		//0 100 1111
+#define NONCRITICALMASK 0x18	//0 001 1000
+#define CRITICALMASK 0xE7		//1 110 0111
 #endif

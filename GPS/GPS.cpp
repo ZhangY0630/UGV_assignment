@@ -17,8 +17,16 @@ int GPS::connect(String^ hostName, int portNumber)
 
 	Stream = Client->GetStream();
 	
+
 	return 1;
 }
+
+void GPS::printData() {
+	Console::WriteLine("Northing: {0,12:f3}", north);
+	Console::WriteLine("Easting: {0,12:f3}", east);
+	Console::WriteLine("Height: {0,12:f3}", height);
+}
+
 int GPS::setupSharedMemory()
 {
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));

@@ -9,27 +9,19 @@
 
 #include "SMStructs.h"
 #include "SMObject.h"
+#include "utility.h"
 
 using namespace System;
 using namespace System::Net::Sockets;
 using namespace System::Net;
 using namespace System::Text;
 
-#define NUM_UNITS 1
+
 
 bool IsProcessRunning(const char* processName);
 void StartProcesses();
 
-//defining start up sequence
-TCHAR Units[10][20] = //
-{
-	TEXT("GPS.exe"),
-	TEXT("LASER.exe"),
-	TEXT("Display.exe"),
-	TEXT("Camera.exe"),
-	TEXT("VehicleControl.exe")
-	
-};
+
 
 int main()
 {
@@ -54,9 +46,36 @@ int main()
 
 	StartProcesses();
 
-	while (1) {
+	while (!PMData->Shutdown.Flags.ProcessManagement) {
+		Sleep(100);
+		if (PMData->Heartbeat.Flags.GPS == 1) {
+			PMData->Heartbeat.Flags.GPS = 0;
+			PMData->waitCount[gps_count] = 0;
+		}
+		else {
+			PMData->waitCount[gps_count]++;
+		}
+
+		for (int i = 0; i < 6; i++) {
+			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
+				if (PMData->waitCount[i] > 10) { //and no response for a long time
+					if (IsProcessRunning(Units[i])) {
+						killProcessByName(Units[i]);
+						Restart(i);
+					}
+					else {
+						Restart(i);
+					}
+				}
+			}
+		}
+
 		if (_kbhit()) break;
 	}
+
+	//while (1) {
+	//	if (_kbhit()) break;
+	//}
 
 	//start all 5 modules
 	//StartProcesses();
@@ -64,46 +83,4 @@ int main()
 }
 
 
-//Is process running function
-bool IsProcessRunning(const char* processName)
-{
-	bool exists = false;
-	PROCESSENTRY32 entry;
-	entry.dwSize = sizeof(PROCESSENTRY32);
-
-	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-
-	if (Process32First(snapshot, &entry))
-		while (Process32Next(snapshot, &entry))
-			if (!_stricmp((const char*)entry.szExeFile, processName))
-				exists = true;
-
-	CloseHandle(snapshot);
-	return exists;
-}
-
-
-void StartProcesses()
-{
-	STARTUPINFO s[10];
-	PROCESS_INFORMATION p[10];
-
-	for (int i = 0; i < NUM_UNITS; i++)
-	{
-		if (!IsProcessRunning((const char *)Units[i]))
-		{
-			ZeroMemory(&s[i], sizeof(s[i]));
-			s[i].cb = sizeof(s[i]);
-			ZeroMemory(&p[i], sizeof(p[i]));
-
-			if (!CreateProcess(NULL, Units[i], NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &s[i], &p[i]))
-			{
-				printf("%s failed (%d).\n", Units[i], GetLastError());
-				_getch();
-			}
-			std::cout << "Started: " << Units[i] << std::endl;
-			Sleep(100);
-		}
-	}
-}
 
