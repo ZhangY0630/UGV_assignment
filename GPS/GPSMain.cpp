@@ -11,11 +11,11 @@ int main() {
 	
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
 	QueryPerformanceCounter((LARGE_INTEGER*)&oldcounter);
-	Sleep(2000);
-	Console::WriteLine("testing");
-	gpsmodule->getData();
-	gpsmodule->processData();
-	double tmp = gpsmodule->GPSdata->easting;
+	/*Sleep(500);*/
+	//Console::WriteLine("testing");
+	//gpsmodule->getData();
+	//gpsmodule->processData();
+	//double tmp = gpsmodule->GPSdata->easting;
 
 	
 	int waitTime = 0;

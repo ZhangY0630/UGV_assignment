@@ -44,8 +44,15 @@ int main()
 	PMData->Shutdown.Status = 0x00;
 	PMData->Heartbeat.Status = 0x00;
 
-	StartProcesses();
+	GPSData->easting = 0;
+	GPSData->northing = 0;
+	GPSData->height = 0;
 
+	//Console::WriteLine(GPSData->easting);
+
+	StartProcesses();
+	//while(1){
+	Console::WriteLine("start watching...");
 	while (!PMData->Shutdown.Flags.ProcessManagement) {
 		Sleep(100);
 		if (PMData->Heartbeat.Flags.GPS == 1) {

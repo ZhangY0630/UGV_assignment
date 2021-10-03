@@ -27,7 +27,7 @@ ref class GPS : public UGV_module
 
 public:
 	ProcessManagement* PMdata;
-	SM_GPS* GPSdata;
+	SM_GPS* GPSinfo;
 	int connect(String^ hostName, int portNumber) override;
 	int setupSharedMemory() override;
 	int getData() override;

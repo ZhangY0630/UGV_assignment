@@ -29,12 +29,17 @@ void GPS::printData() {
 
 int GPS::setupSharedMemory()
 {
+	Console::WriteLine("Setting up shared memory");
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
 	PMdata = (ProcessManagement*)PMObj.pData;
-	GPSdata = (SM_GPS*)GPSObj.pData;
+	GPSinfo = (SM_GPS*)GPSObj.pData;
+	GPSinfo->easting = 0;
+	GPSinfo->northing = 0;
+	GPSinfo->height = 0;
+	Console::WriteLine("Setting up shared memory finished");
 
 	// YOUR CODE HERE
 	return 1;
@@ -95,9 +100,9 @@ int GPS::checkData()
 int GPS::sendDataToSharedMemory()
 {
 	// YOUR CODE HERE
-	GPSdata->easting = east;
-	GPSdata->northing = north;
-	GPSdata->height = height;
+	GPSinfo->easting = east;
+	GPSinfo->northing = north;
+	GPSinfo->height = height;
 	return 1;
 }
 bool GPS::getShutdownFlag()
