@@ -11,6 +11,12 @@ int main() {
 	
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
 	QueryPerformanceCounter((LARGE_INTEGER*)&oldcounter);
+	Sleep(2000);
+	Console::WriteLine("testing");
+	gpsmodule->getData();
+	gpsmodule->processData();
+	double tmp = gpsmodule->GPSdata->easting;
+
 	
 	int waitTime = 0;
 	while (!gpsmodule->getShutdownFlag()) {
@@ -37,6 +43,10 @@ int main() {
 		if (gpsmodule->processData() == 1) {
 			gpsmodule->printData();
 			gpsmodule->PMdata->Heartbeat.Flags.GPS = 1;
+
+
+
+			Console::WriteLine("Send to shared mempory");
 			gpsmodule->sendDataToSharedMemory();
 		}
 		else {
