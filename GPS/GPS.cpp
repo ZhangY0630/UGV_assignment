@@ -41,6 +41,11 @@ int GPS::setupSharedMemory()
 	GPSinfo->height = 0;
 	Console::WriteLine("Setting up shared memory finished");
 
+	GPSdata->easting = 0;
+	GPSdata->northing = 0;
+	GPSdata->height = 0;
+	Console::WriteLine("GPS module shared memory done.");
+
 	// YOUR CODE HERE
 	return 1;
 }

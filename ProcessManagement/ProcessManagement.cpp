@@ -25,30 +25,40 @@ void StartProcesses();
 
 int main()
 {
+	killProcessByName(Units[0]);
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();
-	PMObj.SMAccess();
-	SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
-	LaserObj.SMCreate();
-	LaserObj.SMAccess();
+	// SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
+	// LaserObj.SMCreate();
+	// LaserObj.SMAccess();
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	GPSObj.SMCreate();
+	
+	PMObj.SMAccess();
 	GPSObj.SMAccess();
 
 	//building a pointer
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
-	SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
+	// SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
 	SM_GPS* GPSData = (SM_GPS*)GPSObj.pData;
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
 	PMData->Heartbeat.Status = 0x00;
+<<<<<<< HEAD
 
 	GPSData->easting = 0;
 	GPSData->northing = 0;
 	GPSData->height = 0;
 
 	//Console::WriteLine(GPSData->easting);
+=======
+	GPSData->easting = 0;
+	GPSData->northing = 0;
+	GPSData->height = 0;
+	Console::WriteLine("Iniitialization finished");
+	StartProcesses();
+>>>>>>> 9709dd55340ce1142ff3f586698223960e7999e2
 
 	StartProcesses();
 	//while(1){
