@@ -45,20 +45,13 @@ int main()
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
 	PMData->Heartbeat.Status = 0x00;
-<<<<<<< HEAD
 
 	GPSData->easting = 0;
 	GPSData->northing = 0;
 	GPSData->height = 0;
 
 	//Console::WriteLine(GPSData->easting);
-=======
-	GPSData->easting = 0;
-	GPSData->northing = 0;
-	GPSData->height = 0;
-	Console::WriteLine("Iniitialization finished");
-	StartProcesses();
->>>>>>> 9709dd55340ce1142ff3f586698223960e7999e2
+
 
 	StartProcesses();
 	//while(1){
