@@ -34,6 +34,13 @@ int GPS::setupSharedMemory()
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
+
+	if (GPSObj.SMAccessError)
+	{
+		Console::WriteLine("Share memory access failed");
+		return -2;
+	}
+
 	PMdata = (ProcessManagement*)PMObj.pData;
 	GPSinfo = (SM_GPS*)GPSObj.pData;
 	GPSinfo->easting = 0;
