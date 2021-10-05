@@ -109,9 +109,10 @@ int GPS::checkData()
 int GPS::sendDataToSharedMemory()
 {
 	// YOUR CODE HERE
+	//Console::WriteLine(east);
 	GPSinfo->easting = east;
-	GPSinfo->northing = north;
-	GPSinfo->height = height;
+	//GPSinfo->northing = north;
+	//GPSinfo->height = height;
 	return 1;
 }
 bool GPS::getShutdownFlag()

@@ -54,34 +54,35 @@ int main()
 
 
 	StartProcesses();
-	////while(1){
-	//Console::WriteLine("start watching...");
-	//while (!PMData->Shutdown.Flags.ProcessManagement) {
-	//	Sleep(100);
-	//	if (PMData->Heartbeat.Flags.GPS == 1) {
-	//		PMData->Heartbeat.Flags.GPS = 0;
-	//		PMData->waitCount[gps_count] = 0;
-	//	}
-	//	else {
-	//		PMData->waitCount[gps_count]++;
-	//	}
+	//Console::ReadKey();
+	//while(1){
+	Console::WriteLine("start watching...");
+	while (!PMData->Shutdown.Flags.ProcessManagement) {
+		Sleep(100);
+		if (PMData->Heartbeat.Flags.GPS == 1) {
+			PMData->Heartbeat.Flags.GPS = 0;
+			PMData->waitCount[gps_count] = 0;
+		}
+		else {
+			PMData->waitCount[gps_count]++;
+		}
 
-	//	for (int i = 0; i < 6; i++) {
-	//		if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
-	//			if (PMData->waitCount[i] > 10) { //and no response for a long time
-	//				if (IsProcessRunning(Units[i])) {
-	//					killProcessByName(Units[i]);
-	//					Restart(i);
-	//				}
-	//				else {
-	//					Restart(i);
-	//				}
-	//			}
-	//		}
-	//	}
+		//for (int i = 0; i < 6; i++) {
+		//	if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
+		//		if (PMData->waitCount[i] > 1000) { //and no response for a long time
+		//			if (IsProcessRunning(Units[i])) {
+		//				killProcessByName(Units[i]);
+		//				Restart(i);
+		//			}
+		//			else {
+		//				Restart(i);
+		//			}
+		//		}
+		//	}
+		//}
 
-	//	if (_kbhit()) break;
-	//}
+		if (_kbhit()) break;
+	}
 
 	//while (1) {
 	//	if (_kbhit()) break;

@@ -57,7 +57,7 @@ union ExecFlags
 	UnitFlags Flags;
 	unsigned short Status;
 };
-
+#pragma pack(push,4)
 struct ProcessManagement
 {
 	ExecFlags Heartbeat;
@@ -65,7 +65,7 @@ struct ProcessManagement
 	double waitCount[8];
 	long int LifeCounter;
 };
-
+#pragma pack(pop)
 #define NONCRITICALMASK 0x18	//0 001 1000
 #define CRITICALMASK 0xE7		//1 110 0111
 #endif
