@@ -7,11 +7,12 @@
 
 class SMObject
 {
+public:
 	HANDLE CreateHandle;
 	HANDLE AccessHandle;
 	TCHAR *szName;
 	int Size;
-public:
+
 	void *pData;
 	int SMCreateError;
 	int SMAccessError;

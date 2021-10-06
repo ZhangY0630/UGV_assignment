@@ -30,19 +30,27 @@ void GPS::printData() {
 int GPS::setupSharedMemory()
 {
 	Console::WriteLine("Setting up shared memory");
-	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
-	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
-	PMObj.SMAccess();
-	GPSObj.SMAccess();
+	ProcessManagementData = new SMObject(_TEXT("PM_SM"), sizeof(ProcessManagement));
+	//Console::WriteLine();
+	//this->ProcessManagementData->SetSzname(_TEXT("PM_SM"));
+	//ProcessManagementData->Size = sizeof(ProcessManagement);
+	//ProcessManagementData->SetSzname((_TEXT("PM_SM")));
+	//ProcessManagementData->SetSize(sizeof(ProcessManagement));
 
-	if (GPSObj.SMAccessError)
+	/*SensorData->SetSzname((_TEXT("GPS_SM")));
+	SensorData->SetSize(sizeof(SM_GPS));*/
+	SensorData = new SMObject(_TEXT("GPS_SM"), sizeof(SM_GPS));
+	ProcessManagementData->SMAccess();
+	SensorData->SMAccess();
+
+	if (SensorData->SMAccessError)
 	{
 		Console::WriteLine("Share memory access failed");
 		return -2;
 	}
 
-	PMdata = (ProcessManagement*)PMObj.pData;
-	GPSinfo = (SM_GPS*)GPSObj.pData;
+	PMdata = (ProcessManagement*)ProcessManagementData->pData;
+	GPSinfo = (SM_GPS*)SensorData->pData;
 	GPSinfo->easting = 0;
 	GPSinfo->northing = 0;
 	GPSinfo->height = 0;

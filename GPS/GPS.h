@@ -2,6 +2,7 @@
 
 #include <UGV_module.h>
 #include <smstructs.h>
+#include <SMObject.h>
 
 #define CRC32_POLYNOMIAL 0xEDB88320L
 
