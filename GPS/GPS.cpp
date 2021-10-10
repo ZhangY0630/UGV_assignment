@@ -31,14 +31,6 @@ int GPS::setupSharedMemory()
 {
 	Console::WriteLine("Setting up shared memory");
 	ProcessManagementData = new SMObject(_TEXT("PM_SM"), sizeof(ProcessManagement));
-	//Console::WriteLine();
-	//this->ProcessManagementData->SetSzname(_TEXT("PM_SM"));
-	//ProcessManagementData->Size = sizeof(ProcessManagement);
-	//ProcessManagementData->SetSzname((_TEXT("PM_SM")));
-	//ProcessManagementData->SetSize(sizeof(ProcessManagement));
-
-	/*SensorData->SetSzname((_TEXT("GPS_SM")));
-	SensorData->SetSize(sizeof(SM_GPS));*/
 	SensorData = new SMObject(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	ProcessManagementData->SMAccess();
 	SensorData->SMAccess();
@@ -119,8 +111,8 @@ int GPS::sendDataToSharedMemory()
 	// YOUR CODE HERE
 	//Console::WriteLine(east);
 	GPSinfo->easting = east;
-	//GPSinfo->northing = north;
-	//GPSinfo->height = height;
+	GPSinfo->northing = north;
+	GPSinfo->height = height;
 	return 1;
 }
 bool GPS::getShutdownFlag()
@@ -141,6 +133,8 @@ GPS::~GPS()
 	// YOUR CODE HERE
 	Stream->Close();
 	Client->Close();
+	delete  SensorData;
+	delete ProcessManagementData;
 }
 
 

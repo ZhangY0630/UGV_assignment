@@ -19,15 +19,17 @@ int main() {
 		Console::WriteLine("testing...");
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);
 		timeGap = (double)(counter - oldcounter) / (double)frequency * 1000;
+		oldcounter = counter;
 		if (gpsmodule->PMdata->Heartbeat.Flags.GPS == 1) { //means the pm not response to the heartbeats
 			waitTime = waitTime + timeGap;
+			Console::WriteLine(waitTime);
 			if (waitTime > 1000) {
 				Console::WriteLine("fail to receive the response of PM");
-				Console::ReadKey();
 				break;
 			}
 		}
 		else {
+			Console::WriteLine("Detect PM Response");
 			waitTime = 0;
 			gpsmodule->PMdata->Heartbeat.Flags.GPS = 1;
 		}

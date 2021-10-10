@@ -19,7 +19,7 @@ using namespace System::Text;
 
 #define STANDARD_LASER_LENGTH 361
 
-#define gps_count 3
+#define gps_count 0
 
 
 struct SM_Laser
@@ -43,12 +43,12 @@ struct SM_GPS
 
 struct UnitFlags
 {
-	unsigned char	ProcessManagement : 1,	//CRITICAL
+	unsigned char GPS : 1,				//NONCRITICAL	
 					Laser : 1,				//CRITICAL
 					VehicleControl : 1,		//CRITICAL
-					GPS : 1,				//NONCRITICAL
 					OpenGL : 1,				//NONCRITICAL
-					Camera : 1,				//CRITICAL
+				Camera : 1,				//CRITICAL
+				ProcessManagement : 1,	//CRITICAL
 					Garbage : 2;
 };
 
@@ -66,6 +66,6 @@ struct ProcessManagement
 	long int LifeCounter;
 };
 #pragma pack(pop)
-#define NONCRITICALMASK 0x18	//0 001 1000
-#define CRITICALMASK 0xE7		//1 110 0111
+#define NONCRITICALMASK 0x09	//00001001
+#define CRITICALMASK 0xF6		//11110110
 #endif

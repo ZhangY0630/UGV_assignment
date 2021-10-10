@@ -50,16 +50,22 @@ int main()
 	GPSData->northing = 0;
 	GPSData->height = 0;
 
+	for (int i = 0; i < 8; i++) {
+		PMData->waitCount[i] = 0;
+	}
+
 	//Console::WriteLine(GPSData->easting);
 
 
 	StartProcesses();
+	//Restart(0);
 	//Console::ReadKey();
 	//while(1){
 	Console::WriteLine("start watching...");
 	while (!PMData->Shutdown.Flags.ProcessManagement) {
-		Sleep(100);
+		Sleep(25);
 		if (PMData->Heartbeat.Flags.GPS == 1) {
+			Console::WriteLine("Detect gps heartheats");
 			PMData->Heartbeat.Flags.GPS = 0;
 			PMData->waitCount[gps_count] = 0;
 		}
@@ -67,19 +73,21 @@ int main()
 			PMData->waitCount[gps_count]++;
 		}
 
-		//for (int i = 0; i < 6; i++) {
-		//	if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
-		//		if (PMData->waitCount[i] > 1000) { //and no response for a long time
-		//			if (IsProcessRunning(Units[i])) {
-		//				killProcessByName(Units[i]);
-		//				Restart(i);
-		//			}
-		//			else {
-		//				Restart(i);
-		//			}
-		//		}
-		//	}
-		//}
+		for (int i = 0; i < 6; i++) {
+			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
+				if (PMData->waitCount[i] > 100) { //and no response for a long time
+					if (IsProcessRunning(Units[i])) {
+						killProcessByName(Units[i]);
+						Restart(i);
+						PMData->waitCount[i] = 0;
+					}
+					else {
+						Restart(i);
+						PMData->waitCount[i] = 0;
+					}
+				}
+			}
+		}
 
 		if (_kbhit()) break;
 	}
