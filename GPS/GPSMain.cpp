@@ -4,7 +4,7 @@
 int main() {
 	GPS^ gpsmodule = gcnew GPS();
 	gpsmodule->setupSharedMemory();
-	//gpsmodule->connect("192.168.1.200", 24000); // TODO: add connect file.
+	gpsmodule->connect("192.168.1.200", 24000); // TODO: add connect file.
 	//Console::ReadKey();
 	double timeGap;
 	_int64 frequency,counter, oldcounter;

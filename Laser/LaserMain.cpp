@@ -2,12 +2,12 @@
 int main() {
 	Laser^ lasermodule = gcnew Laser();
 	lasermodule->setupSharedMemory();
-	//lasermodule->connect("192.168.1.200", 23000);
+	lasermodule->connect("192.168.1.200", 23000);
 	String^ zid = nullptr;
-	//zid = gcnew String("5122988\n");
-	//if (lasermodule->Auth(zid)) {
-	//	Console::WriteLine("Authentication Fail");
-	//}
+	zid = gcnew String("5122988\n");
+	if (lasermodule->Auth(zid)) {
+		Console::WriteLine("Authentication Fail");
+	}
 	double timeGap;
 	_int64 frequency, counter, oldcounter;
 
