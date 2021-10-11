@@ -35,21 +35,21 @@ int main() {
 			waitTime = 0;
 			lasermodule->PMdata->Heartbeat.Flags.Laser = 1;
 		}
-		//lasermodule->getData();
-		//if (lasermodule->processData() == 1) {
-		//	lasermodule->printData();
-		//	lasermodule->PMdata->Heartbeat.Flags.Laser = 1;
+		lasermodule->getData();
+		if (lasermodule->processData() == 1) {
+			lasermodule->printData();
+			lasermodule->PMdata->Heartbeat.Flags.Laser = 1;
 
-		//}
-		//else {
-		//	Console::WriteLine("Process Fail... Discard and wait for other data");
-		//}
-		//if (lasermodule->checkData() == 0) {
-		//	Console::WriteLine("Error Lidar read");
-		//	continue;
-		//}
-		//Console::WriteLine("Send to shared mempory");
-		//lasermodule->sendDataToSharedMemory();
+		}
+		else {
+			Console::WriteLine("Process Fail... Discard and wait for other data");
+		}
+		if (lasermodule->checkData() == 0) {
+			Console::WriteLine("Error Lidar read");
+			continue;
+		}
+		Console::WriteLine("Send to shared mempory");
+		lasermodule->sendDataToSharedMemory();
 
 	}
 
