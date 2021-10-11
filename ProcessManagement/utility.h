@@ -12,7 +12,7 @@
 #include "SMStructs.h"
 #include "SMObject.h"
 
-#define NUM_UNITS 5
+#define NUM_UNITS 2
 
 //defining start up sequence
 TCHAR Units[10][20] = //
