@@ -25,7 +25,7 @@ void StartProcesses();
 
 int main()
 {
-	//killProcessByName(Units[0]);
+	killProcessByName(Units[0]);
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();

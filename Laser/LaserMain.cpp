@@ -17,7 +17,7 @@ int main() {
 	Console::WriteLine("Start Processing");
 	while (!lasermodule->getShutdownFlag()) {
 		//Console::WriteLine("testing..");
-		Sleep(250);
+		Sleep(25);
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);
 		timeGap = (double)(counter - oldcounter) / (double)frequency * 1000;
 		oldcounter = counter;
