@@ -20,7 +20,7 @@ ref class Laser : public UGV_module
 public:
 
 	ProcessManagement* PMdata;
-	SM_Laser* GPSinfo;
+	SM_Laser* Laser_info;
 
 	int connect(String^ hostName, int portNumber) override;
 	int setupSharedMemory() override;
@@ -42,7 +42,7 @@ private:
 	double Resolution;
 	int NumRanges;
 	array<String^>^ Fragments = nullptr;
-	unsigned char* structPtr;
+	//unsigned char* structPtr;
 
 	//protected:
 		// YOUR CODE HERE (ADDITIONAL MEMBER VARIABLES THAT YOU MAY WANT TO ADD)

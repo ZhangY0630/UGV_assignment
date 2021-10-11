@@ -18,7 +18,7 @@
 TCHAR Units[10][20] = //
 {
 	TEXT("GPS.exe"),
-	TEXT("LASER.exe"),
+	TEXT("Laser.exe"),
 	TEXT("Display.exe"),
 	TEXT("Camera.exe"),
 	TEXT("VehicleControl.exe")

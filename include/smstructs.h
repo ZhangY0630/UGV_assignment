@@ -20,7 +20,7 @@ using namespace System::Text;
 #define STANDARD_LASER_LENGTH 361
 
 #define gps_count 0
-
+#define laser_count 1
 
 struct SM_Laser
 {

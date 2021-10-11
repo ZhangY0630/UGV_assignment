@@ -29,14 +29,15 @@ int main()
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();
-	// SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
-	// LaserObj.SMCreate();
+	 SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
+	 LaserObj.SMCreate();
 	// LaserObj.SMAccess();
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	GPSObj.SMCreate();
-	
+	//SMAccess()
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
+	LaserObj.SMAccess();
 
 	//building a pointer
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
@@ -71,6 +72,14 @@ int main()
 		}
 		else {
 			PMData->waitCount[gps_count]++;
+		}
+		if (PMData->Heartbeat.Flags.Laser == 1) {
+			Console::WriteLine("Detect Laser heartheats");
+			PMData->Heartbeat.Flags.Laser = 0;
+			PMData->waitCount[laser_count] = 0;
+		}
+		else {
+			PMData->waitCount[laser_count]++;
 		}
 
 		for (int i = 0; i < 6; i++) {

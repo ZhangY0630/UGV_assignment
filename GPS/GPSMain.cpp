@@ -16,7 +16,6 @@ int main() {
 	int waitTime = 0;
 	while (!gpsmodule->getShutdownFlag()) {
 		Sleep(25);
-		Console::WriteLine("testing...");
 		QueryPerformanceCounter((LARGE_INTEGER*)&counter);
 		timeGap = (double)(counter - oldcounter) / (double)frequency * 1000;
 		oldcounter = counter;
