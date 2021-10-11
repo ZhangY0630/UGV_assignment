@@ -71,7 +71,7 @@ void StartProcesses()
 			Console::WriteLine("Process still running");
 			killProcessByName(Units[i]);
 		}
-		if (IsProcessRunning((const char*)Units[i])){
+		if (!IsProcessRunning((const char*)Units[i])){
 			ZeroMemory(&s[i], sizeof(s[i]));
 			s[i].cb = sizeof(s[i]);
 			ZeroMemory(&p[i], sizeof(p[i]));

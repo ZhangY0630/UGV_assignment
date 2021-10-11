@@ -98,6 +98,11 @@ int main()
 					}
 				}
 			}
+			else {//if this one is critical
+				if (PMData->waitCount[i] > 100) {
+					PMData->Shutdown.Status = 0xFF;
+				}
+			}
 		}
 
 		if (_kbhit()) break;
