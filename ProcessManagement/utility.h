@@ -28,7 +28,7 @@ TCHAR Units[10][20] = //
 STARTUPINFO s[10];
 PROCESS_INFORMATION p[10];
 
-
+void killProcessByName(const char* filename);
 //Is process running function
 bool IsProcessRunning(const char* processName)
 {
@@ -55,8 +55,12 @@ void StartProcesses()
 
 	for (int i = 0; i < NUM_UNITS; i++)
 	{
-		if (!IsProcessRunning((const char*)Units[i]))
+		if (IsProcessRunning((const char*)Units[i]))
 		{
+			Console::WriteLine("Process still running");
+			killProcessByName(Units[i]);
+		}
+		if (IsProcessRunning((const char*)Units[i])){
 			ZeroMemory(&s[i], sizeof(s[i]));
 			s[i].cb = sizeof(s[i]);
 			ZeroMemory(&p[i], sizeof(p[i]));
@@ -69,6 +73,12 @@ void StartProcesses()
 			std::cout << "Started: " << Units[i] << std::endl;
 			Sleep(100);
 		}
+		else {
+			Console::WriteLine("Process start fail");
+		}
+
+
+
 	}
 }
 //from stack overflow
@@ -96,6 +106,8 @@ void killProcessByName(const char* filename)
 }
 
 void Restart(int i) {
+	Console::WriteLine("Restarting..");
+	Console::WriteLine("Index is {0}", i);
 
 	if (!IsProcessRunning((const char*)Units[i]))
 	{
@@ -109,5 +121,8 @@ void Restart(int i) {
 		}
 		std::cout << "Started: " << Units[i] << std::endl;
 		Sleep(100);
+	}
+	else {
+		Console::WriteLine("Fail to close the process");
 	}
 }

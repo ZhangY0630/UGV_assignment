@@ -73,19 +73,21 @@ int main()
 		else {
 			PMData->waitCount[gps_count]++;
 		}
-		if (PMData->Heartbeat.Flags.Laser == 1) {
-			Console::WriteLine("Detect Laser heartheats");
-			PMData->Heartbeat.Flags.Laser = 0;
-			PMData->waitCount[laser_count] = 0;
-		}
-		else {
-			PMData->waitCount[laser_count]++;
-		}
+		//if (PMData->Heartbeat.Flags.Laser == 1) {
+		//	Console::WriteLine("Detect Laser heartheats");
+		//	PMData->Heartbeat.Flags.Laser = 0;
+		//	PMData->waitCount[laser_count] = 0;
+		//}
+		//else {
+		//	PMData->waitCount[laser_count]++;
+		//}
 
 		for (int i = 0; i < 6; i++) {
 			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
 				if (PMData->waitCount[i] > 100) { //and no response for a long time
+					Console::WriteLine("Over limit");
 					if (IsProcessRunning(Units[i])) {
+						Console::WriteLine("Process Still running");
 						killProcessByName(Units[i]);
 						Restart(i);
 						PMData->waitCount[i] = 0;
