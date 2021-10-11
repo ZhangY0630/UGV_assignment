@@ -5,6 +5,8 @@
 #include <cstring>
 #include <sstream>
 #include <map>
+#include <smstructs.h>
+#include <SMObject.h>
 
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
@@ -64,8 +66,29 @@ Vehicle * vehicle = NULL;
 double speed = 0;
 double steering = 0;
 
+SMObject* ProcessManagementData;
+ProcessManagement* PMdata;
+
+double timeGap;
+_int64 frequency, counter, oldcounter;
+int waitTime = 0;
+
 //int _tmain(int argc, _TCHAR* argv[]) {
 int main(int argc, char ** argv) {
+
+	Console::WriteLine("Setting up shared memory");
+
+	ProcessManagementData = new SMObject(_TEXT("PM_SM"), sizeof(ProcessManagement));
+	ProcessManagementData->SMAccess();
+
+	if (ProcessManagementData->SMAccessError)
+	{
+		Console::WriteLine("Share memory access failed");
+		return -2;
+	}
+	//
+	PMdata = (ProcessManagement*)ProcessManagementData->pData;
+	Console::WriteLine("Setting up shared memory finished");
 
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
@@ -174,6 +197,28 @@ double getTime()
 }
 
 void idle() {
+
+	if (PMdata->Shutdown.Flags.OpenGL) {
+		exit(-1);
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&counter);
+	timeGap = (double)(counter - oldcounter) / (double)frequency * 1000;
+	oldcounter = counter;
+
+	if (PMdata->Heartbeat.Flags.OpenGL == 1) { //means the pm not response to the heartbeats
+		waitTime = waitTime + timeGap;
+		Console::WriteLine(waitTime);
+		if (waitTime > 1000) {
+			Console::WriteLine("fail to receive the response of PM");
+			//PMdata->Shutdown.Status = 0xFF;
+			exit(-1);
+		}
+	}
+	else {
+		Console::WriteLine("Detect PM Response");
+		waitTime = 0;
+		PMdata->Heartbeat.Flags.OpenGL = 1;
+	}
 
 	if (KeyManager::get()->isAsciiKeyPressed('a')) {
 		Camera::get()->strafeLeft();

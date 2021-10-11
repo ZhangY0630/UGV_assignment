@@ -34,15 +34,20 @@ int main()
 	 LaserObj.SMAccess();
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	GPSObj.SMCreate();
+	SMObject ControlObj(_TEXT("Control_SM"), sizeof(SM_VehicleControl));
+	ControlObj.SMCreate();
 	//SMAccess()
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
-	//LaserObj.SMAccess();
+	LaserObj.SMAccess();
+	ControlObj.SMAccess();
 
 	//building a pointer
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
 	 SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
 	SM_GPS* GPSData = (SM_GPS*)GPSObj.pData;
+	SM_VehicleControl* ControlData = (SM_VehicleControl*)ControlObj.pData;
+
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
 	PMData->Heartbeat.Status = 0x00;
@@ -81,6 +86,31 @@ int main()
 		else {
 			PMData->waitCount[laser_count]++;
 		}
+		if (PMData->Heartbeat.Flags.Camera == 1) {
+			Console::WriteLine("Detect Camera heartheats");
+			PMData->Heartbeat.Flags.Camera = 0;
+			PMData->waitCount[camera_count] = 0;
+		}
+		else {
+			PMData->waitCount[camera_count]++;
+		}
+		if (PMData->Heartbeat.Flags.OpenGL == 1) {
+			Console::WriteLine("Detect OpenGL heartheats");
+			PMData->Heartbeat.Flags.OpenGL = 0;
+			PMData->waitCount[display_count] = 0;
+		}
+		else {
+			PMData->waitCount[display_count]++;
+		}
+		if (PMData->Heartbeat.Flags.VehicleControl == 1) {
+			Console::WriteLine("Detect VehicleControl heartheats");
+			PMData->Heartbeat.Flags.VehicleControl = 0;
+			PMData->waitCount[control_count] = 0;
+		}
+		else {
+			PMData->waitCount[control_count]++;
+		}
+
 
 		for (int i = 0; i < 6; i++) {
 			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical

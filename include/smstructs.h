@@ -21,6 +21,9 @@ using namespace System::Text;
 
 #define gps_count 0
 #define laser_count 1
+#define camera_count 2
+#define display_count 3
+#define control_count 4
 
 struct SM_Laser
 {
@@ -44,10 +47,11 @@ struct SM_GPS
 struct UnitFlags
 {
 	unsigned char GPS : 1,				//NONCRITICAL	
-					Laser : 1,				//CRITICAL
-					VehicleControl : 1,		//CRITICAL
-					OpenGL : 1,				//NONCRITICAL
+				Laser : 1,				//CRITICAL
 				Camera : 1,				//CRITICAL
+				
+				OpenGL : 1,				//NONCRITICAL
+				VehicleControl : 1,		//CRITICAL
 				ProcessManagement : 1,	//CRITICAL
 					Garbage : 2;
 };
