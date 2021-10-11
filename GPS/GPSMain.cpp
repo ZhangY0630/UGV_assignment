@@ -32,24 +32,24 @@ int main() {
 			waitTime = 0;
 			gpsmodule->PMdata->Heartbeat.Flags.GPS = 1;
 		}
-	//
-		//gpsmodule->getData();
-		//if (gpsmodule->checkData() == 0) {
-		//	Console::WriteLine("Error GPS read");
-		//	continue;
-		//}
-		//if (gpsmodule->processData() == 1) {
-		//	gpsmodule->printData();
-		//	gpsmodule->PMdata->Heartbeat.Flags.GPS = 1;
+	
+		gpsmodule->getData();
+		if (gpsmodule->checkData() == 0) {
+			Console::WriteLine("Error GPS read");
+			continue;
+		}
+		if (gpsmodule->processData() == 1) {
+			gpsmodule->printData();
+			gpsmodule->PMdata->Heartbeat.Flags.GPS = 1;
 
 
 
-		//	Console::WriteLine("Send to shared mempory");
-		//	gpsmodule->sendDataToSharedMemory();
-		//}
-		//else {
-		//	Console::WriteLine("Process Fail... Discard and wait for other data");
-		//}
+			Console::WriteLine("Send to shared mempory");
+			gpsmodule->sendDataToSharedMemory();
+		}
+		else {
+			Console::WriteLine("Process Fail... Discard and wait for other data");
+		}
 
 	}
 	Console::WriteLine("Terminate Successfully");
