@@ -12,7 +12,7 @@
 #include "SMStructs.h"
 #include "SMObject.h"
 
-#define NUM_UNITS 1
+#define NUM_UNITS 2
 
 //defining start up sequence
 TCHAR Units[10][20] = //
@@ -46,6 +46,17 @@ bool IsProcessRunning(const char* processName)
 	CloseHandle(snapshot);
 	return exists;
 }
+void ClearProcesses() {
+	int retval;
+	retval = ::_tsystem(_T("taskkill /F /T /IM GPS.exe"));
+	for (int i = 0; i < NUM_UNITS; i++)
+	{	
+		while (IsProcessRunning((const char*)Units[i])) {
+			Console::WriteLine("Killing index {0}",i);
+			killProcessByName(Units[i]);
+		}
+	}
+};
 
 
 void StartProcesses()

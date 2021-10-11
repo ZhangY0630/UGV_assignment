@@ -25,23 +25,23 @@ void StartProcesses();
 
 int main()
 {
-	killProcessByName(Units[0]);
+	//killProcessByName(Units[0]);
 	
 	SMObject PMObj(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	PMObj.SMCreate();
 	 SMObject LaserObj(_TEXT("Laser_SM"), sizeof(SM_Laser));
 	 LaserObj.SMCreate();
-	// LaserObj.SMAccess();
+	 LaserObj.SMAccess();
 	SMObject GPSObj(_TEXT("GPS_SM"), sizeof(SM_GPS));
 	GPSObj.SMCreate();
 	//SMAccess()
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
-	LaserObj.SMAccess();
+	//LaserObj.SMAccess();
 
 	//building a pointer
 	ProcessManagement* PMData = (ProcessManagement*)PMObj.pData;
-	// SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
+	 SM_Laser* LaserData = (SM_Laser*)LaserObj.pData;
 	SM_GPS* GPSData = (SM_GPS*)GPSObj.pData;
 	//initialise status
 	PMData->Shutdown.Status = 0x00;
@@ -57,7 +57,7 @@ int main()
 
 	//Console::WriteLine(GPSData->easting);
 
-
+	//ClearProcesses();
 	StartProcesses();
 	//Restart(0);
 	//Console::ReadKey();
@@ -73,14 +73,14 @@ int main()
 		else {
 			PMData->waitCount[gps_count]++;
 		}
-		//if (PMData->Heartbeat.Flags.Laser == 1) {
-		//	Console::WriteLine("Detect Laser heartheats");
-		//	PMData->Heartbeat.Flags.Laser = 0;
-		//	PMData->waitCount[laser_count] = 0;
-		//}
-		//else {
-		//	PMData->waitCount[laser_count]++;
-		//}
+		if (PMData->Heartbeat.Flags.Laser == 1) {
+			Console::WriteLine("Detect Laser heartheats");
+			PMData->Heartbeat.Flags.Laser = 0;
+			PMData->waitCount[laser_count] = 0;
+		}
+		else {
+			PMData->waitCount[laser_count]++;
+		}
 
 		for (int i = 0; i < 6; i++) {
 			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
