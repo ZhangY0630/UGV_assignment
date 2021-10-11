@@ -112,7 +112,7 @@ int main()
 		}
 
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < NUM_UNITS; i++) {
 			if (NONCRITICALMASK & (1 << i)) { //if this one is non-critical
 				if (PMData->waitCount[i] > 100) { //and no response for a long time
 					Console::WriteLine("Over limit");
