@@ -22,7 +22,7 @@ int main() {
 		if (gpsmodule->PMdata->Heartbeat.Flags.GPS == 1) { //means the pm not response to the heartbeats
 			waitTime = waitTime + timeGap;
 			Console::WriteLine(waitTime);
-			if (waitTime > 1000) {
+			if (waitTime > 2000) {
 				Console::WriteLine("fail to receive the response of PM");
 				break;
 			}
