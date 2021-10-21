@@ -69,6 +69,9 @@ double steering = 0;
 SMObject* ProcessManagementData;
 ProcessManagement* PMdata;
 
+SMObject* SensorData;
+SM_Laser* Laserinfo;
+
 double timeGap;
 _int64 frequency, counter, oldcounter;
 int waitTime = 0;
@@ -79,8 +82,9 @@ int main(int argc, char ** argv) {
 	Console::WriteLine("Setting up shared memory");
 
 	ProcessManagementData = new SMObject(_TEXT("PM_SM"), sizeof(ProcessManagement));
+	SensorData = new SMObject(_TEXT("Laser_SM"), sizeof(SM_Laser));
 	ProcessManagementData->SMAccess();
-
+	SensorData->SMAccess();
 	if (ProcessManagementData->SMAccessError)
 	{
 		Console::WriteLine("Share memory access failed");
@@ -88,6 +92,7 @@ int main(int argc, char ** argv) {
 	}
 	//
 	PMdata = (ProcessManagement*)ProcessManagementData->pData;
+	Laserinfo = (SM_Laser*)SensorData->pData;
 	Console::WriteLine("Setting up shared memory finished");
 
 	const int WINDOW_WIDTH = 800;
@@ -122,7 +127,7 @@ int main(int argc, char ** argv) {
 	//   custom vehicle.
 	// -------------------------------------------------------------------------
 	vehicle = new MyVehicle();
-
+	vehicle->setData(Laserinfo->x,Laserinfo->y);
 
 	glutMainLoop();
 
@@ -159,7 +164,6 @@ void display() {
 	// draw my vehicle
 	if (vehicle != NULL) {
 		vehicle->draw();
-
 	}
 
 

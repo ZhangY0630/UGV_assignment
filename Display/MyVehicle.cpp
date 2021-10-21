@@ -1,5 +1,5 @@
 #include "MyVehicle.hpp"
-
+#include "smstructs.h"
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
@@ -136,11 +136,31 @@ MyVehicle::MyVehicle()
 {
 }
 
+void MyVehicle::setData(double xData[], double yData[]) {
+	this->num = num;
+	this->xData = xData;
+	this->yData = yData;
+}; 
+
+void MyVehicle::drawLaser() {
+	glPushMatrix();
+	glTranslatef(0.5, 0.3, 0);
+	glColor3f(1.0, 0.5, 0);
+	glLineWidth(1.5);
+	for (int i = 0; i < STANDARD_LASER_LENGTH; i++) {
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(*(xData + i) / 1000, 0, -*(yData + i) / 1000);
+		glEnd();
+	}
+	glPopMatrix();
+};
+
 void MyVehicle::draw()
 {
 	glPushMatrix();
 	positionInGL();
-	
+	drawLaser();
 	drawUGV(steering);
 
 	glPopMatrix();
