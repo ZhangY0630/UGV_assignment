@@ -12,16 +12,16 @@
 #include "SMStructs.h"
 #include "SMObject.h"
 
-#define NUM_UNITS 2
+#define NUM_UNITS 5
 
 //defining start up sequence
-TCHAR Units[10][20] = //
+TCHAR Units[10][28] = //
 {
-	TEXT("GPS.exe"),
-	TEXT("Laser.exe"),
+	TEXT("GPS_5122988.exe"),
+	TEXT("Laser_5122988.exe"),
 	TEXT("Camera.exe"),
 	TEXT("Display.exe"),
-	TEXT("VehicleControl.exe")
+	TEXT("VehicleControl_5122988.exe")
 
 };
 

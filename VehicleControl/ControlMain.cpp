@@ -20,7 +20,7 @@ int main() {
 		if (controlmodule->PMdata->Heartbeat.Flags.VehicleControl == 1) { //means the pm not response to the heartbeats
 			waitTime = waitTime + timeGap;
 			Console::WriteLine(waitTime);
-			if (waitTime > 1000) {
+			if (waitTime > 2000) {
 				Console::WriteLine("fail to receive the response of PM");
 				controlmodule->PMdata->Shutdown.Status = 0xFF;
 				break;

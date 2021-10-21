@@ -212,7 +212,7 @@ void idle() {
 	if (PMdata->Heartbeat.Flags.OpenGL == 1) { //means the pm not response to the heartbeats
 		waitTime = waitTime + timeGap;
 		Console::WriteLine(waitTime);
-		if (waitTime > 1000) {
+		if (waitTime > 2000) {
 			Console::WriteLine("fail to receive the response of PM");
 			//PMdata->Shutdown.Status = 0xFF;
 			exit(-1);
