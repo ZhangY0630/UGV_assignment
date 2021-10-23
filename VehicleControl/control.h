@@ -14,6 +14,7 @@ public:
 	ProcessManagement* PMdata;
 	SM_VehicleControl* Control_info;
 
+
 	int connect(String^ hostName, int portNumber) override;
 	int setupSharedMemory() override;
 	int getData() override;
@@ -24,7 +25,14 @@ public:
 	~Control();
 	int processData() override;
 	void printData() override;
+	 int Auth(String^ zid) override;
+	 void controlVehicle() override;
+	 void flipFlag() override;
 
+protected:
+	double speed;     // m/s
+	double steering;  // degrees
+	unsigned int flag = 0;
 	//unsigned char* structPtr;
 
 	//protected:

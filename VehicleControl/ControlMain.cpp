@@ -31,6 +31,9 @@ int main() {
 			waitTime = 0;
 			controlmodule->PMdata->Heartbeat.Flags.VehicleControl = 1;
 		}
+		controlmodule->flipFlag();
+		controlmodule->controlVehicle();
+		controlmodule->flipFlag();
 
 	}
 }

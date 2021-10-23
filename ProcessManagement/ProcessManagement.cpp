@@ -36,7 +36,8 @@ int main()
 	GPSObj.SMCreate();
 	SMObject ControlObj(_TEXT("Control_SM"), sizeof(SM_VehicleControl));
 	ControlObj.SMCreate();
-	//SMAccess()
+
+	//SMAccess() SM_VehicleControl
 	PMObj.SMAccess();
 	GPSObj.SMAccess();
 	LaserObj.SMAccess();

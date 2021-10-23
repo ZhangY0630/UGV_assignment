@@ -62,7 +62,7 @@ int prev_mouse_x = -1;
 int prev_mouse_y = -1;
 
 // vehicle control related variables
-Vehicle * vehicle = NULL;
+MyVehicle * vehicle = NULL;
 double speed = 0;
 double steering = 0;
 
@@ -71,6 +71,10 @@ ProcessManagement* PMdata;
 
 SMObject* SensorData;
 SM_Laser* Laserinfo;
+
+SMObject* KeyBoardData;
+SM_VehicleControl* Controlinfo;
+
 
 double timeGap;
 _int64 frequency, counter, oldcounter;
@@ -83,9 +87,16 @@ int main(int argc, char ** argv) {
 
 	ProcessManagementData = new SMObject(_TEXT("PM_SM"), sizeof(ProcessManagement));
 	SensorData = new SMObject(_TEXT("Laser_SM"), sizeof(SM_Laser));
+	KeyBoardData = new SMObject(_TEXT("Control_SM"), sizeof(SM_VehicleControl));
 	ProcessManagementData->SMAccess();
 	SensorData->SMAccess();
+	KeyBoardData->SMAccess();
 	if (ProcessManagementData->SMAccessError)
+	{
+		Console::WriteLine("ProcessManagementData Share memory access failed");
+		return -2;
+	}
+	if (KeyBoardData->SMAccessError)
 	{
 		Console::WriteLine("Share memory access failed");
 		return -2;
@@ -93,6 +104,7 @@ int main(int argc, char ** argv) {
 	//
 	PMdata = (ProcessManagement*)ProcessManagementData->pData;
 	Laserinfo = (SM_Laser*)SensorData->pData;
+	Controlinfo = (SM_VehicleControl*)KeyBoardData->pData;
 	Console::WriteLine("Setting up shared memory finished");
 
 	const int WINDOW_WIDTH = 800;
@@ -281,6 +293,9 @@ void idle() {
 	if (vehicle != NULL) {
 		vehicle->update(speed, steering, elapsedTime);
 	}
+
+	Controlinfo->Speed = vehicle->getSpeed();
+	Controlinfo->Steering = vehicle->getSteering();
 
 	display();
 
