@@ -150,6 +150,8 @@ void HUD::Draw()
 		DrawGauge(200+winWidthOff, 280, 210, -1, 1, vehicle->getSpeed(), "Speed");
 		glColor3f(1, 1, 0);
 		DrawGauge(600+winWidthOff, 280, 210, -40, 40, vehicle->getSteering(), "Steer");
+		RenderString("Testing...", 280, 210, GLUT_BITMAP_HELVETICA_10);
+			//TODO wait for the test
 	}
 
 	Camera::get()->switchTo3DDrawing();

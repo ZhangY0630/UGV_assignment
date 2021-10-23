@@ -25,6 +25,7 @@ void GPS::printData() {
 	Console::WriteLine("Northing: {0,12:f3}", north);
 	Console::WriteLine("Easting: {0,12:f3}", east);
 	Console::WriteLine("Height: {0,12:f3}", height);
+	Console::WriteLine("CRC: {0,12:f3}", crc);
 }
 
 int GPS::setupSharedMemory()
